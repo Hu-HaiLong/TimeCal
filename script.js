@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // 日期计算模式元素
     const dateInput = document.getElementById('dateInput');
     const calculateBtn = document.getElementById('calculateBtn');
     const result = document.getElementById('result');
@@ -7,21 +8,63 @@ document.addEventListener('DOMContentLoaded', function() {
     const yearsEl = document.getElementById('years');
     const resultText = document.getElementById('resultText');
 
+    // 天数计算模式元素
+    const dateInput2 = document.getElementById('dateInput2');
+    const daysInput = document.getElementById('daysInput');
+    const calculateDaysBtn = document.getElementById('calculateDaysBtn');
+    const daysResult = document.getElementById('daysResult');
+    const targetDateEl = document.getElementById('targetDate');
+    const weekdayEl = document.getElementById('weekday');
+    const daysResultText = document.getElementById('daysResultText');
+
+    // 模式切换元素
+    const modeDateBtn = document.getElementById('modeDate');
+    const modeDaysBtn = document.getElementById('modeDays');
+    const dateMode = document.getElementById('dateMode');
+    const daysMode = document.getElementById('daysMode');
+
     // 从 localStorage 读取上次保存的日期
     const savedDate = localStorage.getItem('savedDate');
     if (savedDate) {
         dateInput.value = savedDate;
-        calculate(); // 自动计算并显示结果
+        dateInput2.value = savedDate;
     } else {
         // 如果没有保存的日期，设置默认日期为今天
         const today = new Date();
         dateInput.valueAsDate = today;
+        dateInput2.valueAsDate = today;
     }
+
+    // 模式切换
+    modeDateBtn.addEventListener('click', function() {
+        modeDateBtn.classList.add('active');
+        modeDaysBtn.classList.remove('active');
+        dateMode.classList.remove('hidden');
+        daysMode.classList.add('hidden');
+        result.style.display = '';
+        daysResult.style.display = 'none';
+    });
+
+    modeDaysBtn.addEventListener('click', function() {
+        modeDaysBtn.classList.add('active');
+        modeDateBtn.classList.remove('active');
+        daysMode.classList.remove('hidden');
+        dateMode.classList.add('hidden');
+        result.style.display = 'none';
+        daysResult.style.display = '';
+    });
 
     calculateBtn.addEventListener('click', calculate);
     dateInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             calculate();
+        }
+    });
+
+    calculateDaysBtn.addEventListener('click', calculateDays);
+    daysInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            calculateDays();
         }
     });
 
@@ -71,5 +114,64 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 显示结果区域
         result.classList.remove('hidden');
+        result.style.display = '';
+    }
+
+    function calculateDays() {
+        const selectedDate = new Date(dateInput2.value);
+        const days = parseInt(daysInput.value);
+        
+        if (!dateInput2.value) {
+            alert('请选择起始日期');
+            return;
+        }
+        
+        if (!daysInput.value || isNaN(days)) {
+            alert('请输入有效的天数');
+            return;
+        }
+
+        // 计算目标日期
+        const targetDate = new Date(selectedDate);
+        targetDate.setDate(selectedDate.getDate() + days);
+
+        // 获取星期几
+        const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+        const weekday = weekdays[targetDate.getDay()];
+
+        // 格式化日期
+        const startDateStr = selectedDate.toLocaleDateString('zh-CN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        const dateStr = targetDate.toLocaleDateString('zh-CN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        const dateStrShort = targetDate.toLocaleDateString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        });
+
+        // 显示结果
+        targetDateEl.textContent = dateStrShort;
+        weekdayEl.textContent = weekday;
+
+        if (days > 0) {
+            daysResultText.textContent = `从 ${startDateStr} 开始，${days} 天后是 ${dateStr}（${weekday}）`;
+        } else if (days < 0) {
+            daysResultText.textContent = `从 ${startDateStr} 开始，${Math.abs(days)} 天前是 ${dateStr}（${weekday}）`;
+        } else {
+            daysResultText.textContent = `就是 ${dateStr}（${weekday}）`;
+        }
+
+        // 显示结果区域
+        daysResult.classList.remove('hidden');
+        daysResult.style.display = '';
     }
 });

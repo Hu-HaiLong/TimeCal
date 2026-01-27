@@ -141,6 +141,74 @@ label {
     }
 }
 
+.mode-switch {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    background: #f5f7fa;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.mode-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    color: #666;
+    font-size: 0.95em;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.mode-btn.active {
+    background: white;
+    color: #667eea;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mode-btn:hover:not(.active) {
+    color: #667eea;
+}
+
+.result-card-single {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.result-item-large {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 30px 40px;
+    border-radius: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 280px;
+}
+
+.label-top {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.number-large {
+    font-size: 2.2em;
+    font-weight: bold;
+    color: white;
+    letter-spacing: 1px;
+}
+
+.label-bottom {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
 @media (max-width: 480px) {
     .container {
         padding: 25px;
@@ -164,5 +232,19 @@ label {
     
     .label {
         font-size: 0.8em;
+    }
+
+    .result-item-large {
+        padding: 25px 30px;
+        min-width: auto;
+    }
+
+    .number-large {
+        font-size: 1.8em;
+    }
+
+    .mode-btn {
+        font-size: 0.85em;
+        padding: 10px;
     }
 }

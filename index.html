@@ -11,13 +11,30 @@
         <h1>⏰ 时间计算器</h1>
         <p class="subtitle">计算距离某个时间已经过去了多久</p>
         
-        <div class="input-section">
+        <!-- 切换按钮 -->
+        <div class="mode-switch">
+            <button id="modeDate" class="mode-btn active">日期计算</button>
+            <button id="modeDays" class="mode-btn">天数计算</button>
+        </div>
+
+        <!-- 日期计算模式 -->
+        <div class="input-section" id="dateMode">
             <label for="dateInput">选择日期</label>
             <input type="date" id="dateInput" class="date-input">
             <button id="calculateBtn" class="btn">计算</button>
         </div>
 
-        <div id="result" class="result hidden">
+        <!-- 天数计算模式 -->
+        <div class="input-section hidden" id="daysMode">
+            <label for="dateInput2">选择起始日期</label>
+            <input type="date" id="dateInput2" class="date-input">
+            <label for="daysInput">输入天数</label>
+            <input type="number" id="daysInput" class="date-input" placeholder="例如：100（负数表示往前推）">
+            <button id="calculateDaysBtn" class="btn">计算日期</button>
+        </div>
+
+        <!-- 日期计算结果 -->
+        <div id="result" class="result">
             <div class="result-card">
                 <div class="result-item">
                     <span class="number" id="days">0</span>
@@ -33,6 +50,18 @@
                 </div>
             </div>
             <p class="result-text" id="resultText"></p>
+        </div>
+
+        <!-- 天数计算结果 -->
+        <div id="daysResult" class="result" style="display: none;">
+            <div class="result-card-single">
+                <div class="result-item-large">
+                    <span class="label-top">目标日期</span>
+                    <span class="number-large" id="targetDate">2024-01-01</span>
+                    <span class="label-bottom" id="weekday">星期一</span>
+                </div>
+            </div>
+            <p class="result-text" id="daysResultText"></p>
         </div>
     </div>
 
