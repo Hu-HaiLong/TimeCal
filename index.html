@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间计算器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>⏰ 时间计算器</h1>
+        <p class="subtitle">计算距离某个时间已经过去了多久</p>
+        
+        <div class="input-section">
+            <label for="dateInput">选择日期</label>
+            <input type="date" id="dateInput" class="date-input">
+            <button id="calculateBtn" class="btn">计算</button>
+        </div>
+
+        <div id="result" class="result hidden">
+            <div class="result-card">
+                <div class="result-item">
+                    <span class="number" id="days">0</span>
+                    <span class="label">天</span>
+                </div>
+                <div class="result-item">
+                    <span class="number" id="weeks">0</span>
+                    <span class="label">周</span>
+                </div>
+                <div class="result-item">
+                    <span class="number" id="years">0</span>
+                    <span class="label">年</span>
+                </div>
+            </div>
+            <p class="result-text" id="resultText"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
