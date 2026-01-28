@@ -33,6 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let hasDateResult = false;
     let hasDaysResult = false;
 
+    // 从 localStorage 加载上次的数据
+    loadSavedData();
+
     // 模式切换
     modeDateBtn.addEventListener('click', function() {
         modeDateBtn.classList.add('active');
@@ -116,6 +119,15 @@ document.addEventListener('DOMContentLoaded', function() {
         // 显示结果区域
         result.style.display = '';
         hasDateResult = true;
+
+        // 保存到 localStorage
+        saveData('dateMode', {
+            date: dateInput.value,
+            days: Math.abs(days),
+            weeks: Math.abs(weeks),
+            years: Math.abs(years),
+            resultText: resultText.textContent
+        });
     }
 
     function calculateDays() {
@@ -174,5 +186,67 @@ document.addEventListener('DOMContentLoaded', function() {
         // 显示结果区域
         daysResult.style.display = '';
         hasDaysResult = true;
+
+        // 保存到 localStorage
+        saveData('daysMode', {
+            startDate: dateInput2.value,
+            daysCount: days,
+            targetDate: dateStrShort,
+            weekday: weekday,
+            resultText: daysResultText.textContent
+        });
+    }
+
+    // 保存数据到 localStorage
+    function saveData(mode, data) {
+        try {
+            const saveObj = {
+                mode: mode,
+                data: data,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem('timeCalculatorData', JSON.stringify(saveObj));
+        } catch (e) {
+            console.error('保存数据失败:', e);
+        }
+    }
+
+    // 从 localStorage 加载数据
+    function loadSavedData() {
+        try {
+            const saved = localStorage.getItem('timeCalculatorData');
+            if (!saved) return;
+
+            const saveObj = JSON.parse(saved);
+            const { mode, data } = saveObj;
+
+            if (mode === 'dateMode' && data.date) {
+                // 恢复日期计算模式的数据
+                dateInput.value = data.date;
+                daysEl.textContent = data.days;
+                weeksEl.textContent = data.weeks;
+                yearsEl.textContent = data.years;
+                resultText.textContent = data.resultText;
+                result.style.display = '';
+                hasDateResult = true;
+            } else if (mode === 'daysMode' && data.startDate) {
+                // 恢复天数计算模式的数据
+                dateInput2.value = data.startDate;
+                daysInput.value = data.daysCount;
+                targetDateEl.textContent = data.targetDate;
+                weekdayEl.textContent = data.weekday;
+                daysResultText.textContent = data.resultText;
+                
+                // 切换到天数计算模式
+                modeDaysBtn.classList.add('active');
+                modeDateBtn.classList.remove('active');
+                daysMode.classList.remove('hidden');
+                dateMode.classList.add('hidden');
+                daysResult.style.display = '';
+                hasDaysResult = true;
+            }
+        } catch (e) {
+            console.error('加载数据失败:', e);
+        }
     }
 });
