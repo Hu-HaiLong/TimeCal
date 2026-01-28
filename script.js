@@ -23,17 +23,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const dateMode = document.getElementById('dateMode');
     const daysMode = document.getElementById('daysMode');
 
-    // 从 localStorage 读取上次保存的日期
-    const savedDate = localStorage.getItem('savedDate');
-    if (savedDate) {
-        dateInput.value = savedDate;
-        dateInput2.value = savedDate;
-    } else {
-        // 如果没有保存的日期，设置默认日期为今天
-        const today = new Date();
-        dateInput.valueAsDate = today;
-        dateInput2.valueAsDate = today;
-    }
+    // 初始化日期为今天
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+    dateInput.value = todayStr;
+    dateInput2.value = todayStr;
+
+    // 追踪是否有计算结果
+    let hasDateResult = false;
+    let hasDaysResult = false;
 
     // 模式切换
     modeDateBtn.addEventListener('click', function() {
@@ -41,8 +39,11 @@ document.addEventListener('DOMContentLoaded', function() {
         modeDaysBtn.classList.remove('active');
         dateMode.classList.remove('hidden');
         daysMode.classList.add('hidden');
-        result.style.display = '';
+        // 隐藏天数计算的结果，显示日期计算的结果（如果有）
         daysResult.style.display = 'none';
+        if (hasDateResult) {
+            result.style.display = '';
+        }
     });
 
     modeDaysBtn.addEventListener('click', function() {
@@ -50,8 +51,11 @@ document.addEventListener('DOMContentLoaded', function() {
         modeDateBtn.classList.remove('active');
         daysMode.classList.remove('hidden');
         dateMode.classList.add('hidden');
+        // 隐藏日期计算的结果，显示天数计算的结果（如果有）
         result.style.display = 'none';
-        daysResult.style.display = '';
+        if (hasDaysResult) {
+            daysResult.style.display = '';
+        }
     });
 
     calculateBtn.addEventListener('click', calculate);
@@ -76,9 +80,6 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('请选择一个日期');
             return;
         }
-
-        // 保存日期到 localStorage
-        localStorage.setItem('savedDate', dateInput.value);
 
         // 计算时间差（毫秒）
         const timeDiff = currentDate - selectedDate;
@@ -113,8 +114,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // 显示结果区域
-        result.classList.remove('hidden');
         result.style.display = '';
+        hasDateResult = true;
     }
 
     function calculateDays() {
@@ -171,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // 显示结果区域
-        daysResult.classList.remove('hidden');
         daysResult.style.display = '';
+        hasDaysResult = true;
     }
 });

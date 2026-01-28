@@ -21,20 +21,20 @@
         <div class="input-section" id="dateMode">
             <label for="dateInput">选择日期</label>
             <input type="date" id="dateInput" class="date-input">
-            <button id="calculateBtn" class="btn">计算</button>
+            <button id="calculateBtn" class="btn">计算时间差</button>
         </div>
 
         <!-- 天数计算模式 -->
-        <div class="input-section hidden" id="daysMode">
+        <div class="input-section hidden" id="daysMode" >
             <label for="dateInput2">选择起始日期</label>
             <input type="date" id="dateInput2" class="date-input">
             <label for="daysInput">输入天数</label>
             <input type="number" id="daysInput" class="date-input" placeholder="例如：100（负数表示往前推）">
-            <button id="calculateDaysBtn" class="btn">计算日期</button>
+            <button id="calculateDaysBtn" class="btn">计算目标日期</button>
         </div>
 
         <!-- 日期计算结果 -->
-        <div id="result" class="result">
+        <div id="result" class="result" style="display: none;">
             <div class="result-card">
                 <div class="result-item">
                     <span class="number" id="days">0</span>

@@ -92,6 +92,10 @@ label {
     display: none;
 }
 
+.hidden {
+    display: none !important;
+}
+
 .result-card {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
